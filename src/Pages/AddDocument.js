@@ -30,7 +30,7 @@ export default function AddDocument() {
 
     try {
       // Replace 'your-api-endpoint' with the actual API endpoint
-      const response = await fetch(`${baseURL}/contracts/`, {
+      const response = await fetch(`${baseURL}/contracts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
