@@ -3,7 +3,6 @@ import './normalize.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './Pages/Home';
 import AddDocument from './Pages/AddDocument';
-import NavigationMenu from './Parts/NavigationMenu';
 
 function App() {
   return (
