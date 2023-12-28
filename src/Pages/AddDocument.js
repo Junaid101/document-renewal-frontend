@@ -70,18 +70,25 @@ export default function AddDocument() {
               type="text"
               id="title"
               name="title"
-              value={formData.name}
+              value={formData.title}
               onChange={handleChange}
             />
 
             <label htmlFor="contract_type">Contract Type:</label>
-            <input
+            <select
               type="text"
               id="contract_type"
               name="contract_type"
               value={formData.contract_type}
               onChange={handleChange}
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="support">Support</option>
+              <option value="subscription">Subscription</option>
+              <option value="amc">AMC</option>
+              <option value="warranty">Warranty</option>
+
+            </select>
 
             <label htmlFor="oem_id">OEM ID:</label>
             <input
@@ -111,13 +118,24 @@ export default function AddDocument() {
             />
 
             <label htmlFor="category_name">Category Name:</label>
-            <input
+            <select
               type="text"
               id="category_name"
               name="category_name"
               value={formData.category_name}
               onChange={handleChange}
-            />
+            >
+              <option value="">Select Category</option>
+              <option value="enterprise_network_system">Network</option>
+              <option value="enterprise_system">System</option>
+              <option value="enterprise_database_system">Database System</option>
+              <option value="enterprise_card_system">Card System</option>
+              <option value="enterprise_software_solutions">Application</option>
+              <option value="peripherals_devices">Peripheral Devices</option>
+              <option value="personal_computing">Personal Computing</option>
+              <option value="data_center_devices">Data Center Passive Items</option>
+
+            </select>
 
             <label htmlFor="partner_name">Partner Name:</label>
             <input
