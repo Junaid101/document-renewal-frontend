@@ -1,15 +1,17 @@
 import './App.css';
-import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
-import Home from "./Pages/Home"
-import AssetCreation from "./Pages/AssetCreation"
+import './normalize.css';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './Pages/Home';
+import AddDocument from './Pages/AddDocument';
+import NavigationMenu from './Parts/NavigationMenu';
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/assetcreation" element={<AssetCreation />} />
-      </Routes>
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/document/add" exact element={<AddDocument />} />
+        </Routes>
     </Router>
   );
 }

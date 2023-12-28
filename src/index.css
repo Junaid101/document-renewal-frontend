@@ -1,13 +1,102 @@
+:root {
+  /* Primary Colors */
+  --primary: #444cf7;
+  --primary-opacity: #444cf777;
+  --secondary: #6c757d;
+
+  /* Background Colors */
+  --background: #f8f9fa;
+  --foreground: #ffffff;
+
+  /* Text Colors */
+  --text-primary: #343a40;
+  --text-secondary: #495057;
+
+  /* Accent Colors */
+  --success: #28a745;
+  --warning: #ffb703ff;
+  --danger: #dc3545;
+
+  height: 100%;
+  width: 100%;
+}
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sansv", "Droid Sans", "Helvetica Neue";
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+}
+
+.container {
+  /* Center the card on the page */
+  max-width: 600px;
+  margin: auto;
+  padding: 16px;
+}
+
+.card {
+  background-color: var(
+    --foreground
+  ); /* Use the foreground color for the white card */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: auto auto;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+/* Apply consistent styling to form fields */
+input,
+select,
+textarea {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Style placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #999;
+}
+
+/* Style focused form fields */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+}
+
+/* Style buttons */
+button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Customize checkboxes and radio buttons */
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: 5px;
+}
+
+.m-auto {
+  margin:auto
 }
