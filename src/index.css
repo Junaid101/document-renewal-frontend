@@ -35,7 +35,21 @@ body {
 
 .container {
   /* Center the card on the page */
+  max-width: 800px;
+  margin: auto;
+  padding: 16px;
+}
+
+.container-s {
+  /* Center the card on the page */
   max-width: 600px;
+  margin: auto;
+  padding: 16px;
+}
+
+.container-l {
+  /* Center the card on the page */
+  max-width: 1000px;
   margin: auto;
   padding: 16px;
 }
@@ -48,6 +62,7 @@ body {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: auto auto;
+  overflow-y: scroll;
 }
 
 code {

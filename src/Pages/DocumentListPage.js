@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import baseURL from './config';
-import NavigationMenu from '../Parts/NavigationMenu';
+import baseURL from './Config';
+import NavigationMenu from '../parts/NavigationMenu';
 
-function GetAlldata() {
+function DocumentListPage() {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,8 +49,7 @@ function GetAlldata() {
     'Partner Name',
     'Start Date',
     'Expiry Date',
-    'Work Order Reference',
-    'Unique ID',
+    'Work Order Reference'
   ];
 
   // Function to map custom headers to JSON keys
@@ -65,8 +64,7 @@ function GetAlldata() {
       'Partner Name': 'partner_name',
       'Start Date': 'start_date',
       'Expiry Date': 'expiry_date',
-      'Work Order Reference': 'work_order_reference',
-      'Unique ID': 'id',
+      'Work Order Reference': 'work_order_reference'
     };
 
     // Fallback to the original header if mapping not found
@@ -74,24 +72,18 @@ function GetAlldata() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className='container card'>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className='container card'>Error: {error}</div>;
   }
 
   return (
-    <div className="container h-100">
+    <div className="container-l h-100">
       <NavigationMenu />
-      <div className="card table-container">
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'auto auto',
-            gap: '10px',
-          }}
-        >
+      <div className="card">
+        <div>
           {data.length === 0 ? (
             <div>No data available</div>
           ) : (
@@ -120,4 +112,4 @@ function GetAlldata() {
   );
 }
 
-export default GetAlldata;
+export default DocumentListPage;

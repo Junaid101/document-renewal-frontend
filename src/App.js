@@ -1,17 +1,18 @@
 import './App.css';
+import './index.css';
 import './normalize.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './Pages/Home';
-import AddDocument from './Pages/AddDocument';
-import View from './Pages/ViewAll';
+import Home from './pages/Home';
+import DocumentAddPage from './pages/DocumentAddPage';
+import DocumentListPage from './pages/DocumentListPage';
 
 function App() {
   return (
     <Router>
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/document/add" exact element={<AddDocument />} />
-          <Route path="/document/view" exact element={<View />} />
+          <Route path="/document/add" exact element={<DocumentAddPage />} />
+          <Route path="/document/view" exact element={<DocumentListPage />} />
         </Routes>
     </Router>
   );

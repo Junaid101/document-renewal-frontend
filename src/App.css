@@ -54,15 +54,17 @@ table {
 /* Apply styles to the table headers */
 th {
   width: auto;
-  border: 2px solid rgba(196, 171, 188, 0);
+  border: 0px solid rgba(196, 171, 188, 0);
   padding: 10px;
-  color: white; 
+  color: --primary;
+  font-size: 0.9em;
 }
 
 /* Apply styles to the table cells */
 td {
-  border: 2px solid white;
+  border: 0px solid white;
   padding: 10px;
+  font-size: 0.9em;
 }
 
 /* Color alternate rows */
