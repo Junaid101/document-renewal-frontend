@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import baseURL from './config';
 import NavigationMenu from '../Parts/NavigationMenu';
-import './Table.css'; // Import your styles
 
 function GetAlldata() {
   const [data, setData] = useState([]);
