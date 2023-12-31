@@ -22,6 +22,10 @@ function GetAlldata() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
+        if (response.status === 400) {
+          throw new Error(`No data available! Status: ${response.status}`);
+        }
+
         const result = await response.json();
         setData(result);
       } catch (error) {
