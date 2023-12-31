@@ -40,7 +40,7 @@ export default function AddDocument() {
   
       const responseData = await response.json();
   
-      if (response.ok) {
+      if (response.status in [200, 201, 202]) {
         setSubmissionStatus("success");
   
         // Clear the form data
@@ -66,7 +66,7 @@ export default function AddDocument() {
       setSubmissionStatus('error');
     }
   };
-  
+
   return (
     <div className="container h-100">
       <NavigationMenu />
