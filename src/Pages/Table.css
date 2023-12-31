@@ -18,7 +18,7 @@
   /* Apply styles to the table headers */
   th {
     width: auto;
-    border: 2px solid white; /* Set a white border for the header cells */
+    border: 2px solid rgba(196, 171, 188, 0); /* Set a white border for the header cells */
     padding: 10px; /* Add padding for better appearance */
     background-color: #333; /* Header background color */
     color: white; /* Header text color */
