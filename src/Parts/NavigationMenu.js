@@ -8,6 +8,7 @@ const NavigationMenu = () => {
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/document/add">Add Document</Link></li>
+        <li><Link to="/document/view">View</Link></li>
       </ul>
     </nav>
   );

@@ -27,7 +27,7 @@ export default function AddDocument() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       // Replace 'your-api-endpoint' with the actual API endpoint
       const response = await fetch(`${baseURL}/contracts`, {
@@ -37,13 +37,26 @@ export default function AddDocument() {
         },
         body: JSON.stringify(formData),
       });
-
-      const responseData = await response.json()
-
-      if (response.status in [200, 201, 202]) {
+  
+      const responseData = await response.json();
+  
+      if (response.ok) {
         setSubmissionStatus("success");
-      } 
-      else {
+  
+        // Clear the form data
+        setFormData({
+          title: "",
+          contract_type: "",
+          oem_id: "",
+          model: "",
+          serial_number: "",
+          category_name: "",
+          partner_name: "",
+          start_date: "",
+          expiry_date: "",
+          work_order_reference: "",
+        });
+      } else {
         setExplicitError(`Status Code: (${response.status}). Error:${responseData.errors}`);
         setSubmissionStatus("error");
       }
@@ -53,7 +66,7 @@ export default function AddDocument() {
       setSubmissionStatus('error');
     }
   };
-
+  
   return (
     <div className="container h-100">
       <NavigationMenu />

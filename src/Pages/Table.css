@@ -1,0 +1,36 @@
+/* styles.css */
+
+/* Center the table and make it responsive */
+.table-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  /* Apply styles to the table */
+  table {
+    width: 100%;
+    max-width: 800px; /* Set a maximum width if needed */
+    table-layout: auto;
+    border-collapse: collapse; /* Collapse borders to avoid double borders */
+    border: 6px solid white; /* Set a thick white border */
+  }
+  
+  /* Apply styles to the table headers */
+  th {
+    width: auto;
+    border: 2px solid white; /* Set a white border for the header cells */
+    padding: 10px; /* Add padding for better appearance */
+    background-color: #333; /* Header background color */
+    color: white; /* Header text color */
+  }
+  
+  /* Apply styles to the table cells */
+  td {
+    border: 2px solid white; /* Set a white border for the data cells */
+    padding: 10px; /* Add padding for better appearance */
+  }
+  
+  /* Color alternate rows */
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* Background color for even rows */
+  }
