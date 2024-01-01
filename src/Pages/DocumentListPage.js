@@ -83,9 +83,10 @@ function DocumentListPage() {
     <div className="container-l h-100">
       <NavigationMenu />
       <div className="card">
-        <div>
-          {loading && <div>Loading...</div>}
-          {!loading && fetchingStatus !== 'error' && (
+        {loading && <div>Loading...</div>}
+        {fetchingStatus === 'error' && <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />}
+        {!loading && fetchingStatus !== 'error' && (
+          <div>
             <table>
               <thead>
                 <tr>
@@ -104,10 +105,8 @@ function DocumentListPage() {
                 ))}
               </tbody>
             </table>
-          )}
-
-          {fetchingStatus === 'error' && <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
