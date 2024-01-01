@@ -40,7 +40,7 @@ export default function AddDocument() {
   
       const responseData = await response.json();
   
-      if (response.status in [200, 201, 202]) {
+      if (response.ok) {
         setSubmissionStatus("success");
   
         // Clear the form data
@@ -56,7 +56,11 @@ export default function AddDocument() {
           expiry_date: "",
           work_order_reference: "",
         });
-      } else {
+      } else if (response.status === 400) {
+        // Explicitly handle status code 400
+        setExplicitError('Invalid data. Please check your input.');
+        setSubmissionStatus('error');
+      }else {
         setExplicitError(`Status Code: (${response.status}). Error:${responseData.errors}`);
         setSubmissionStatus("error");
       }

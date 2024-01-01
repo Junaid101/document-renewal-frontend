@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import baseURL from './config';
 import NavigationMenu from '../Parts/NavigationMenu';
+import ErrorFetchingMessage from '../Parts/ErrorFetchingMessage';
 
 function DocumentListPage() {
   const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
+  const [explicitError, setExplicitError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [fetchingStatus, setFetchingStatus] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,27 +18,33 @@ function DocumentListPage() {
             'Content-Type': 'application/json',
           },
         });
-
+    
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          setExplicitError('Error Fetching Data.');
+          setFetchingStatus('error');
         }
-
+    
         if (response.status === 400) {
-          throw new Error(`No data available! Status: ${response.status}`);
+          setExplicitError('No Data Available.');
+          setFetchingStatus('error');
         }
-
-        const result = await response.json();
-        setData(result);
+    
+        // Additional handling for other status codes or successful response parsing
+        if (response.ok) {
+          const result = await response.json();
+          setData(result);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
-        setError('Failed to fetch data. Please try again.');
+        setExplicitError('Failed to fetch. Please check your database connection.');
+        setFetchingStatus('error');
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []); // Empty dependency array to run once when the component mounts
+  }, []);
 
   // Custom headers for your table
   const tableHeaders = [
@@ -49,7 +57,7 @@ function DocumentListPage() {
     'Partner Name',
     'Start Date',
     'Expiry Date',
-    'Work Order Reference'
+    'Work Order Reference',
   ];
 
   // Function to map custom headers to JSON keys
@@ -64,29 +72,20 @@ function DocumentListPage() {
       'Partner Name': 'partner_name',
       'Start Date': 'start_date',
       'Expiry Date': 'expiry_date',
-      'Work Order Reference': 'work_order_reference'
+      'Work Order Reference': 'work_order_reference',
     };
 
     // Fallback to the original header if mapping not found
     return headerMapping[header] || header;
   };
 
-  if (loading) {
-    return <div className='container card'>Loading...</div>;
-  }
-
-  if (error) {
-    return <div className='container card'>Error: {error}</div>;
-  }
-
   return (
     <div className="container-l h-100">
       <NavigationMenu />
       <div className="card">
         <div>
-          {data.length === 0 ? (
-            <div>No data available</div>
-          ) : (
+          {loading && <div>Loading...</div>}
+          {!loading && fetchingStatus !== 'error' && (
             <table>
               <thead>
                 <tr>
@@ -106,6 +105,8 @@ function DocumentListPage() {
               </tbody>
             </table>
           )}
+
+          {fetchingStatus === 'error' && <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />}
         </div>
       </div>
     </div>
