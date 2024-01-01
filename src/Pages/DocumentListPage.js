@@ -3,7 +3,32 @@ import baseURL from './config';
 import NavigationMenu from '../Parts/NavigationMenu';
 import ErrorFetchingMessage from '../Parts/ErrorFetchingMessage';
 
-function DocumentListPage() {
+// Define your DocumentTable component
+const DocumentTable = React.memo(({ data, tableHeaders, mapHeaderToKey }) => {
+  return (
+    <table>
+      <thead>
+        <tr>
+          {tableHeaders.map((header, index) => (
+            <th key={index}>{header}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((item, rowIndex) => (
+          <tr key={rowIndex}>
+            {tableHeaders.map((header, colIndex) => (
+              <td key={colIndex}>{item[mapHeaderToKey(header)]}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+});
+
+// DocumentListPage component using DocumentTable
+const DocumentListPage = () => {
   const [data, setData] = useState([]);
   const [explicitError, setExplicitError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -18,18 +43,17 @@ function DocumentListPage() {
             'Content-Type': 'application/json',
           },
         });
-    
+
         if (!response.ok) {
           setExplicitError('Error Fetching Data.');
           setFetchingStatus('error');
         }
-    
+
         if (response.status === 400) {
           setExplicitError('No Data Available.');
           setFetchingStatus('error');
         }
-    
-        // Additional handling for other status codes or successful response parsing
+
         if (response.ok) {
           const result = await response.json();
           setData(result);
@@ -46,7 +70,6 @@ function DocumentListPage() {
     fetchData();
   }, []);
 
-  // Custom headers for your table
   const tableHeaders = [
     'Title',
     'Contract Type',
@@ -60,7 +83,6 @@ function DocumentListPage() {
     'Work Order Reference',
   ];
 
-  // Function to map custom headers to JSON keys
   const mapHeaderToKey = (header) => {
     const headerMapping = {
       'Title': 'title',
@@ -75,7 +97,6 @@ function DocumentListPage() {
       'Work Order Reference': 'work_order_reference',
     };
 
-    // Fallback to the original header if mapping not found
     return headerMapping[header] || header;
   };
 
@@ -86,30 +107,11 @@ function DocumentListPage() {
         {loading && <div>Loading...</div>}
         {fetchingStatus === 'error' && <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />}
         {!loading && fetchingStatus !== 'error' && (
-          <div>
-            <table>
-              <thead>
-                <tr>
-                  {tableHeaders.map((header, index) => (
-                    <th key={index}>{header}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((item, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {tableHeaders.map((header, colIndex) => (
-                      <td key={colIndex}>{item[mapHeaderToKey(header)]}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DocumentTable data={data} tableHeaders={tableHeaders} mapHeaderToKey={mapHeaderToKey} />
         )}
       </div>
     </div>
   );
-}
+};
 
 export default DocumentListPage;
