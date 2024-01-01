@@ -1,5 +1,5 @@
 import React from "react";
-import NavigationMenu from "../parts/NavigationMenu";
+import NavigationMenu from "../Parts/NavigationMenu";
 
 function Home() {
   return (

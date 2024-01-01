@@ -2,9 +2,9 @@ import './App.css';
 import './index.css';
 import './normalize.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
-import DocumentAddPage from './pages/DocumentAddPage';
-import DocumentListPage from './pages/DocumentListPage';
+import Home from './Pages/Home';
+import DocumentAddPage from './Pages/DocumentAddPage';
+import DocumentListPage from './Pages/DocumentListPage';
 
 function App() {
   return (

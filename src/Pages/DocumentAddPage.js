@@ -1,7 +1,7 @@
 import { useState } from "react";
-import baseURL from './Config';
-import SubmissionStatusMessage from "../parts/SubmissionStatusMessage";
-import NavigationMenu from "../parts/NavigationMenu";
+import baseURL from './config';
+import SubmissionStatusMessage from "../Parts/SubmissionStatusMessage";
+import NavigationMenu from "../Parts/NavigationMenu";
 
 export default function AddDocument() {
   const [formData, setFormData] = useState({

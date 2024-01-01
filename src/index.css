@@ -115,3 +115,38 @@ input[type="radio"] {
 .m-auto {
   margin:auto
 }
+
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Apply styles to the table */
+table {
+  width: 100%;
+  max-width: 800px;
+  table-layout: auto;
+  border-collapse: collapse; 
+  border: 6px solid white; 
+}
+
+/* Apply styles to the table headers */
+th {
+  width: auto;
+  border: 0px solid rgba(196, 171, 188, 0);
+  padding: 10px;
+  color: --primary;
+  font-size: 0.9em;
+}
+
+/* Apply styles to the table cells */
+td {
+  border: 0px solid white;
+  padding: 10px;
+  font-size: 0.9em;
+}
+
+/* Color alternate rows */
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

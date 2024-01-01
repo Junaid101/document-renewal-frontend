@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import baseURL from './Config';
-import NavigationMenu from '../parts/NavigationMenu';
+import baseURL from './config';
+import NavigationMenu from '../Parts/NavigationMenu';
 
 function DocumentListPage() {
   const [data, setData] = useState([]);
