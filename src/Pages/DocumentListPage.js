@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, TableSortLabel, Card, CardContent } from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import baseURL from './config';
 import NavigationMenu from '../Parts/NavigationMenu';
 import ErrorFetchingMessage from '../Parts/ErrorFetchingMessage';
@@ -9,9 +9,10 @@ const DocumentListPage = () => {
   const [explicitError, setExplicitError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchingStatus, setFetchingStatus] = useState(null);
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: 'asc' });
+  const [sortModel, setSortModel] = useState([{ field: 'title', sort: 'asc' }]);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [pageSize, setPageSize] = useState(5);
+  const [selectionModel, setSelectionModel] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,129 +50,94 @@ const DocumentListPage = () => {
     fetchData();
   }, []);
 
-  const handleSort = (key) => {
-    const direction = sortConfig.key === key && sortConfig.direction === 'asc' ? 'desc' : 'asc';
-    setSortConfig({ key, direction });
+  const handleSortModelChange = (model) => {
+    setSortModel(model);
   };
 
-  const sortedData = React.useMemo(() => {
-    if (sortConfig.key) {
-      const sortedArray = [...data].sort((a, b) => {
-        const valueA = a[sortConfig.key];
-        const valueB = b[sortConfig.key];
+  const handlePageChange = (params) => {
+    setPage(params.page);
+  };
 
-        if (valueA < valueB) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
+  const handlePageSizeChange = (params) => {
+    setPageSize(params.pageSize);
+  };
 
-        if (valueA > valueB) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
+  const handleSelectionModelChange = (newSelection) => {
+    setSelectionModel(newSelection);
+  };
 
-        return 0;
-      });
-
-      return sortedArray;
+  const replaceCellValue = (rowData) => {
+    if (rowData.category_name === 'enterprise_network_system') {
+      return { ...rowData, category_name: 'Enterprise Network System' };
     }
-
-    return data;
-  }, [data, sortConfig]);
-
-  const tableHeaders = [
-    'Title',
-    'Contract Type',
-    'OEM Name',
-    'Model',
-    'Serial Number',
-    'Category',
-    'Partner Name',
-    'Start Date',
-    'Expiry Date',
-    'Work Order Reference',
-  ];
-
-  const mapHeaderToKey = (header) => {
-    const headerMapping = {
-      'Title': 'title',
-      'Contract Type': 'contract_type',
-      'OEM Name': 'oem_id',
-      'Model': 'model',
-      'Serial Number': 'serial_number',
-      'Category': 'category_name',
-      'Partner Name': 'partner_name',
-      'Start Date': 'start_date',
-      'Expiry Date': 'expiry_date',
-      'Work Order Reference': 'work_order_reference',
-    };
-
-    return headerMapping[header] || header;
+    if (rowData.category_name === 'enterprise_system') {
+      return { ...rowData, category_name: 'System' };
+    }
+    if (rowData.category_name === 'enterprise_database_system') {
+      return { ...rowData, category_name: 'Database' };
+    }
+    if (rowData.category_name === 'enterprise_card_system') {
+      return { ...rowData, category_name: 'Card System' };
+    }
+    if (rowData.category_name === 'enterprise_software_solutions') {
+      return { ...rowData, category_name: 'Application' };
+    }
+    if (rowData.category_name === 'peripherals_devices') {
+      return { ...rowData, category_name: 'Peripherals Devices' };
+    }
+    if (rowData.category_name === 'personal_computing') {
+      return { ...rowData, category_name: 'Personal Computing' };
+    }
+    if (rowData.category_name === 'data_center_devices') {
+      return { ...rowData, category_name: 'Data Center Passive Items' };
+    }
+    return rowData;
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const modifiedRows = data.map(replaceCellValue);
 
   return (
     <div className="container-l h-100">
       <NavigationMenu />
       <div className="card">
-        {loading && <div>Loading...</div>}
-        {fetchingStatus === 'error' && (
-          <Card variant="outlined">
-            <CardContent>
-              <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />
-            </CardContent>
-          </Card>
+        {loading && fetchingStatus === 'error' && (
+          <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />
         )}
-        {!loading && fetchingStatus !== 'error' && (
-          <Paper>
-            <TableContainer>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    {tableHeaders.map((header) => (
-                      <TableCell key={header} sortDirection={sortConfig.key === mapHeaderToKey(header) ? sortConfig.direction : false}>
-                        <TableSortLabel
-                          active={sortConfig.key === mapHeaderToKey(header)}
-                          direction={sortConfig.direction}
-                          onClick={() => handleSort(mapHeaderToKey(header))}
-                        >
-                          {header}
-                        </TableSortLabel>
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {sortedData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                    <TableRow key={index}>
-                      {tableHeaders.map((header) => (
-                        <TableCell key={header}>{row[mapHeaderToKey(header)]}</TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              component="div"
-              count={sortedData.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
-        )}
+        <div className="container-l h-100">
+          {!loading && fetchingStatus !== 'error' && (
+            <DataGrid
+              rows={modifiedRows}
+              columns={[
+                  { field: 'id', headerName: 'Contract ID', flex: 1 },
+                  { field: 'title', headerName: 'Title', flex: 1, sortable: true },
+                  { field: 'contract_type', headerName: 'Contract Type', flex: 1, sortable: true },
+                  { field: 'oem_id', headerName: 'OEM Name', flex: 1, sortable: true },
+                  { field: 'model', headerName: 'Model', flex: 1, sortable: true },
+                  { field: 'serial_number', headerName: 'Serial Number', flex: 1, sortable: true },
+                  { field: 'category_name', headerName: 'Category', flex: 1, sortable: true },
+                  { field: 'partner_name', headerName: 'Partner Name', flex: 1, sortable: true },
+                  { field: 'start_date', headerName: 'Start Date', flex: 1, sortable: true },
+                  { field: 'expiry_date', headerName: 'Expiry Date', flex: 1, sortable: true },
+                  { field: 'work_order_reference', headerName: 'Work Order Reference', flex: 1 },
+                ].map((column) => ({ ...column, disableColumnMenu: true }))}
+                sortModel={sortModel}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+                onSortModelChange={handleSortModelChange}
+                pageSize={pageSize}
+                page={page}
+                selectionModel={selectionModel}
+                onSelectionModelChange={handleSelectionModelChange}
+                checkboxSelection
+                components={{
+                  Toolbar: GridToolbar,
+                }}
+              />
+            )}
+          </div>
+        </div>
       </div>
-    </div>
-  );
-};
-
-export default DocumentListPage;
+    );
+  };
+  
+  export default DocumentListPage;
