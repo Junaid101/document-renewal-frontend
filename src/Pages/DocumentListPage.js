@@ -106,7 +106,7 @@ const DocumentListPage = () => {
     <div className="container-l h-100">
       <NavigationMenu />
       <div className="card">
-        {loading && fetchingStatus === "error" && (
+        {fetchingStatus === "error" && (
           <ErrorFetchingMessage
             status={fetchingStatus}
             errorMessage={explicitError}
