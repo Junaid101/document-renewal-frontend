@@ -103,12 +103,12 @@ const DocumentListPage = () => {
         {loading && fetchingStatus === 'error' && (
           <ErrorFetchingMessage status={fetchingStatus} errorMessage={explicitError} />
         )}
-        <div className="container-l h-100">
+        <div>
           {!loading && fetchingStatus !== 'error' && (
             <DataGrid
               rows={modifiedRows}
               columns={[
-                  { field: 'id', headerName: 'Contract ID', flex: 1 },
+                  { field: 'id', headerName: 'Contract ID', flex: 1,sortable: false },
                   { field: 'title', headerName: 'Title', flex: 1, sortable: true },
                   { field: 'contract_type', headerName: 'Contract Type', flex: 1, sortable: true },
                   { field: 'oem_id', headerName: 'OEM Name', flex: 1, sortable: true },
