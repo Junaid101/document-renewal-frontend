@@ -38,6 +38,28 @@ const DocumentListPage = () => {
 
         if (response.ok) {
           const result = await response.json();
+  
+          // Replace category_name values based on conditions
+          result.forEach((item) => {
+            if (item.category_name === "enterprise_network_system") {
+              item.category_name = "Network";
+            } else if (item.category_name === "enterprise_system") {
+              item.category_name = "System";
+            } else if (item.category_name === "enterprise_database_system") {
+              item.category_name = "Database";
+            } else if (item.category_name === "enterprise_card_system") {
+              item.category_name = "Card System";
+            } else if (item.category_name === "enterprise_software_solutions") {
+              item.category_name = "Application";
+            } else if (item.category_name === "peripherals_devices") {
+              item.category_name = "Peripherals Devices";
+            } else if (item.category_name === "personal_computing") {
+              item.category_name = "Personal Computing";
+            } else if (item.category_name === "data_center_devices") {
+              item.category_name = "Data Center Passive Items";
+            }
+          });
+  
           setData(result);
         }
       } catch (error) {
@@ -70,34 +92,6 @@ const DocumentListPage = () => {
     setSelectionModel(newSelection);
   };
 
-  const replaceCellValue = (rowData) => {
-    if (rowData.category_name === "enterprise_network_system") {
-      return { ...rowData, category_name: "Enterprise Network System" };
-    }
-    if (rowData.category_name === "enterprise_system") {
-      return { ...rowData, category_name: "System" };
-    }
-    if (rowData.category_name === "enterprise_database_system") {
-      return { ...rowData, category_name: "Database" };
-    }
-    if (rowData.category_name === "enterprise_card_system") {
-      return { ...rowData, category_name: "Card System" };
-    }
-    if (rowData.category_name === "enterprise_software_solutions") {
-      return { ...rowData, category_name: "Application" };
-    }
-    if (rowData.category_name === "peripherals_devices") {
-      return { ...rowData, category_name: "Peripherals Devices" };
-    }
-    if (rowData.category_name === "personal_computing") {
-      return { ...rowData, category_name: "Personal Computing" };
-    }
-    if (rowData.category_name === "data_center_devices") {
-      return { ...rowData, category_name: "Data Center Passive Items" };
-    }
-    return rowData;
-  };
-
   const handleRowClick = (params) => {
     
     // 'id' is the key for the item-id in your data
@@ -107,7 +101,6 @@ const DocumentListPage = () => {
     navigate(`../document/details/${itemId}`);
   };
 
-  const modifiedRows = data.map(replaceCellValue);
 
   return (
     <div className="container-l h-100">
@@ -122,7 +115,7 @@ const DocumentListPage = () => {
         <div>
           {!loading && fetchingStatus !== "error" && (
             <DataGrid
-              rows={modifiedRows}
+              rows={data}
               columns={[
                 {
                   field: "id",
