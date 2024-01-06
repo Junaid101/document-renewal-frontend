@@ -35,19 +35,28 @@ const DocumentDetailPage = () => {
             "Content-Type": "application/json",
           },
         });
-
+  
         if (!response.ok) {
           setExplicitError("Error Fetching Data.");
           setFetchingStatus("error");
         }
-
+  
         if (response.status === 400) {
           setExplicitError("No Data Available.");
           setFetchingStatus("error");
         }
-
+  
         if (response.ok) {
           const result = await response.json();
+  
+          result.category_name = result.category_name === "enterprise_network_system" ? "Network" : result.category_name;
+          result.category_name = result.category_name === "enterprise_system" ? "System" : result.category_name;
+          result.category_name = result.category_name === "enterprise_database_system" ? "Database" : result.category_name;
+          result.category_name = result.category_name === "enterprise_card_system" ? "Card System" : result.category_name;
+          result.category_name = result.category_name === "enterprise_software_solutions" ? "Application" : result.category_name;
+          result.category_name = result.category_name === "peripherals_devices" ? "Peripherals Devices" : result.category_name;
+          result.category_name = result.category_name === "personal_computing" ? "Personal Computing" : result.category_name;
+          result.category_name = result.category_name === "data_center_devices" ? "Data Center Passive Items" : result.category_name;
           setFormData(result);
         }
       } catch (error) {
@@ -60,10 +69,9 @@ const DocumentDetailPage = () => {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, [id]);
-
   return (
     <div className='container'>
       <NavigationMenu />
@@ -100,7 +108,7 @@ const DocumentDetailPage = () => {
           <label htmlFor="expiry_date">Expiry Date:</label>
           <input type="date" id="expiry_date" name="expiry_date" value={formData.expiry_date} readOnly />
           <label htmlFor="previous_contract">Previous Contract:</label>
-          <input type="date" id="previous_contract" name="previous_contract" value={formData.previous_contract} readOnly />
+          <input type="text" id="previous_contract" name="previous_contract" value={formData.previous_contract} readOnly />
           </form>
       </div>
     </div>
