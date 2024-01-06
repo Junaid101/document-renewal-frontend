@@ -108,7 +108,7 @@ export default function AddDocument() {
 
             </select>
 
-            <label htmlFor="oem_id">OEM ID:</label>
+            <label htmlFor="oem_id">OEM</label>
             <input
               type="text"
               id="oem_id"
