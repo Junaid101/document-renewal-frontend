@@ -1,5 +1,5 @@
 import { useState } from "react";
-import baseURL from './config';
+import { baseURL, category_name_options, contract_type_options } from '../Parts/constants';
 import SubmissionStatusMessage from "../Parts/SubmissionStatusMessage";
 import NavigationMenu from "../Parts/NavigationMenu";
 
@@ -27,7 +27,7 @@ export default function AddDocument() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Replace 'your-api-endpoint' with the actual API endpoint
       const response = await fetch(`${baseURL}/contracts`, {
@@ -37,12 +37,12 @@ export default function AddDocument() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       const responseData = await response.json();
-  
+
       if (response.ok) {
         setSubmissionStatus("success");
-  
+
         // Clear the form data
         setFormData({
           title: "",
@@ -60,7 +60,7 @@ export default function AddDocument() {
         // Explicitly handle status code 400
         setExplicitError('Invalid data. Please check your input.');
         setSubmissionStatus('error');
-      }else {
+      } else {
         setExplicitError(`Status Code: (${response.status}). Error:${responseData.errors}`);
         setSubmissionStatus("error");
       }
@@ -100,12 +100,12 @@ export default function AddDocument() {
               value={formData.contract_type}
               onChange={handleChange}
             >
-              <option value="">Select Category</option>
-              <option value="support">Support</option>
-              <option value="subscription">Subscription</option>
-              <option value="amc">AMC</option>
-              <option value="warranty">Warranty</option>
-
+              <option value="">Select Contract</option>
+              {contract_type_options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
 
             <label htmlFor="oem_id">OEM</label>
@@ -144,15 +144,11 @@ export default function AddDocument() {
               onChange={handleChange}
             >
               <option value="">Select Category</option>
-              <option value="enterprise_network_system">Network</option>
-              <option value="enterprise_system">System</option>
-              <option value="enterprise_database_system">Database System</option>
-              <option value="enterprise_card_system">Card System</option>
-              <option value="enterprise_software_solutions">Application</option>
-              <option value="peripherals_devices">Peripheral Devices</option>
-              <option value="personal_computing">Personal Computing</option>
-              <option value="data_center_devices">Data Center Passive Items</option>
-
+              {category_name_options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
             </select>
 
             <label htmlFor="partner_name">Partner Name:</label>

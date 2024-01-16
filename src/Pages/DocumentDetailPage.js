@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import NavigationMenu from '../Parts/NavigationMenu';
-import baseURL from "./config";
+import { baseURL, category_name_options, contract_type_options } from '../Parts/constants';
 import ErrorFetchingMessage from "../Parts/ErrorFetchingMessage";
 import SubmissionStatusMessage from "../Parts/SubmissionStatusMessage";
 
@@ -79,12 +79,12 @@ const DocumentDetailPage = () => {
         },
         body: JSON.stringify(editedFormData),
       });
-  
+
       const responseData = await response.json();
-  
+
       if (response.ok) {
         setSubmissionStatus("success");
-  
+
         // Refetch the data after a successful save
         const refetchResponse = await fetch(`${baseURL}/contracts/${id}`, {
           method: "GET",
@@ -92,7 +92,7 @@ const DocumentDetailPage = () => {
             "Content-Type": "application/json",
           },
         });
-  
+
         if (refetchResponse.ok) {
           const result = await refetchResponse.json();
           setFormData(result);
@@ -115,7 +115,7 @@ const DocumentDetailPage = () => {
       setIsEditing(false);
     }
   };
-  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedFormData({
@@ -146,7 +146,7 @@ const DocumentDetailPage = () => {
             >
               <label htmlFor="id">Contract ID:</label>
               <input type="text" id="id" name="id" value={formData.id} readOnly />
-              
+
               <label htmlFor="title">Title:</label>
               <input
                 type="text"
@@ -165,10 +165,12 @@ const DocumentDetailPage = () => {
                   value={editedFormData.contract_type}
                   onChange={handleInputChange}
                 >
-                  <option value="support">Support</option>
-                  <option value="subscription">Subscription</option>
-                  <option value="amc">AMC</option>
-                  <option value="warranty">Warranty</option>
+                  <option value="">Select Contract</option>
+                  {contract_type_options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               ) : (
                 <input
@@ -179,6 +181,7 @@ const DocumentDetailPage = () => {
                   readOnly
                 />
               )}
+
 
               <label htmlFor="oem_id">OEM:</label>
               <input
@@ -213,19 +216,18 @@ const DocumentDetailPage = () => {
               <label htmlFor="category_name">Contract Type:</label>
               {isEditing ? (
                 <select
+                  type="text"
                   id="category_name"
                   name="category_name"
-                  value={editedFormData.category_name}
+                  value={isEditing ? editedFormData.category_name : formData.category_name}
                   onChange={handleInputChange}
                 >
-					        <option value="enterprise_system">System</option>
-					        <option value="enterprise_network_system">Network</option>
-					        <option value="enterprise_database_system">Database System</option>
-					        <option value="enterprise_card_system">Card System</option>
-					        <option value="enterprise_software_solutions">Application</option>
-					        <option value="peripherals_devices">Peripheral Devices</option>
-					        <option value="personal_computing">Personal Computing</option>
-					        <option value="data_center_devices">Data Center Passive Items</option>
+                  <option value="">Select Category</option>
+                  {category_name_options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
                 </select>
               ) : (
                 <input
