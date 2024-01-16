@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import NavigationMenu from '../Parts/NavigationMenu';
-import { baseURL, category_name_options, contract_type_options } from '../Parts/constants';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import NavigationMenu from "../Parts/NavigationMenu";
+import {
+  baseURL,
+  category_name_options,
+  contract_type_options,
+} from "../Parts/constants";
 import ErrorFetchingMessage from "../Parts/ErrorFetchingMessage";
 import SubmissionStatusMessage from "../Parts/SubmissionStatusMessage";
 
@@ -18,7 +22,7 @@ const DocumentDetailPage = () => {
     start_date: "",
     expiry_date: "",
     work_order_reference: "",
-    previous_contract: ""
+    previous_contract: "",
   });
 
   const [loading, setLoading] = useState(true);
@@ -63,8 +67,6 @@ const DocumentDetailPage = () => {
     fetchData();
   }, [id]);
 
-
-
   const handleEditClick = () => {
     setIsEditing(true);
     setEditedFormData({ ...formData });
@@ -101,16 +103,18 @@ const DocumentDetailPage = () => {
           setFetchingStatus("error");
         }
       } else if (response.status === 400) {
-        setExplicitError('Invalid data. Please check your input.');
-        setSubmissionStatus('error');
+        setExplicitError("Invalid data. Please check your input.");
+        setSubmissionStatus("error");
       } else {
-        setExplicitError(`Status Code: (${response.status}). Error: ${responseData.errors}`);
+        setExplicitError(
+          `Status Code: (${response.status}). Error: ${responseData.errors}`
+        );
         setSubmissionStatus("error");
       }
     } catch (error) {
-      console.error('Error submitting/processing data:', error);
+      console.error("Error submitting/processing data:", error);
       setExplicitError(`Error: ${error}`);
-      setSubmissionStatus('error');
+      setSubmissionStatus("error");
     } finally {
       setIsEditing(false);
     }
@@ -125,7 +129,7 @@ const DocumentDetailPage = () => {
   };
 
   return (
-    <div className='container'>
+    <div className="container">
       <NavigationMenu />
       <div className="card">
         {fetchingStatus === "error" && (
@@ -145,7 +149,13 @@ const DocumentDetailPage = () => {
               }}
             >
               <label htmlFor="id">Contract ID:</label>
-              <input type="text" id="id" name="id" value={formData.id} readOnly />
+              <input
+                type="text"
+                id="id"
+                name="id"
+                value={formData.id}
+                readOnly
+              />
 
               <label htmlFor="title">Title:</label>
               <input
@@ -158,30 +168,20 @@ const DocumentDetailPage = () => {
               />
 
               <label htmlFor="contract_type">Contract Type:</label>
-              {isEditing ? (
-                <select
-                  id="contract_type"
-                  name="contract_type"
-                  value={editedFormData.contract_type}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select Contract</option>
-                  {contract_type_options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  type="text"
-                  id="contract_type"
-                  name="contract_type"
-                  value={formData.contract_type}
-                  readOnly
-                />
-              )}
-
+              <select
+                id="contract_type"
+                name="contract_type"
+                value={isEditing ? editedFormData.contract_type : formData.contract_type}
+                readOnly={!isEditing}
+                onChange={handleInputChange}
+              >
+                <option value="">Select Contract</option>
+                {contract_type_options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
 
               <label htmlFor="oem_id">OEM:</label>
               <input
@@ -208,19 +208,27 @@ const DocumentDetailPage = () => {
                 type="text"
                 id="serial_number"
                 name="serial_number"
-                value={isEditing ? editedFormData.serial_number : formData.serial_number}
+                value={
+                  isEditing
+                    ? editedFormData.serial_number
+                    : formData.serial_number
+                }
                 readOnly={!isEditing}
                 onChange={handleInputChange}
               />
 
-              <label htmlFor="category_name">Contract Type:</label>
-              {isEditing ? (
-                <select
+              <label htmlFor="category_name">Category Name:</label>
+               <select
                   type="text"
                   id="category_name"
                   name="category_name"
-                  value={isEditing ? editedFormData.category_name : formData.category_name}
+                  value={
+                    isEditing
+                      ? editedFormData.category_name
+                      : formData.category_name
+                  }
                   onChange={handleInputChange}
+                  readOnly={!isEditing}
                 >
                   <option value="">Select Category</option>
                   {category_name_options.map((option) => (
@@ -229,22 +237,18 @@ const DocumentDetailPage = () => {
                     </option>
                   ))}
                 </select>
-              ) : (
-                <input
-                  type="text"
-                  id="category_name"
-                  name="category_name"
-                  value={formData.category_name}
-                  readOnly
-                />
-              )}
+
 
               <label htmlFor="partner_name">Partner Name:</label>
               <input
                 type="text"
                 id="partner_name"
                 name="partner_name"
-                value={isEditing ? editedFormData.partner_name : formData.partner_name}
+                value={
+                  isEditing
+                    ? editedFormData.partner_name
+                    : formData.partner_name
+                }
                 readOnly={!isEditing}
                 onChange={handleInputChange}
               />
@@ -254,7 +258,9 @@ const DocumentDetailPage = () => {
                 type="date"
                 id="start_date"
                 name="start_date"
-                value={isEditing ? editedFormData.start_date : formData.start_date}
+                value={
+                  isEditing ? editedFormData.start_date : formData.start_date
+                }
                 readOnly={!isEditing}
                 onChange={handleInputChange}
               />
@@ -264,7 +270,9 @@ const DocumentDetailPage = () => {
                 type="date"
                 id="expiry_date"
                 name="expiry_date"
-                value={isEditing ? editedFormData.expiry_date : formData.expiry_date}
+                value={
+                  isEditing ? editedFormData.expiry_date : formData.expiry_date
+                }
                 readOnly={!isEditing}
                 onChange={handleInputChange}
               />
@@ -279,14 +287,13 @@ const DocumentDetailPage = () => {
               />
             </form>
             <div>
-              {!isEditing && (
-                <button onClick={handleEditClick}>Edit</button>
-              )}
-              {isEditing && (
-                <button onClick={handleSaveClick}>Save</button>
-              )}
+              {!isEditing && <button onClick={handleEditClick}>Edit</button>}
+              {isEditing && <button onClick={handleSaveClick}>Save</button>}
 
-              <SubmissionStatusMessage status={submissionStatus} errorMessage={explicitError} />
+              <SubmissionStatusMessage
+                status={submissionStatus}
+                errorMessage={explicitError}
+              />
             </div>
           </div>
         )}
