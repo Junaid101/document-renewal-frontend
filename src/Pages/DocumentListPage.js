@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import baseURL from "./config";
+import { baseURL, contract_type_options, category_name_options } from "../Parts/constants";
 import NavigationMenu from "../Parts/NavigationMenu";
 import ErrorFetchingMessage from "../Parts/ErrorFetchingMessage";
 
@@ -38,28 +38,6 @@ const DocumentListPage = () => {
 
         if (response.ok) {
           const result = await response.json();
-  
-          // Replace category_name values based on conditions
-          result.forEach((item) => {
-            if (item.category_name === "enterprise_network_system") {
-              item.category_name = "Network";
-            } else if (item.category_name === "enterprise_system") {
-              item.category_name = "System";
-            } else if (item.category_name === "enterprise_database_system") {
-              item.category_name = "Database";
-            } else if (item.category_name === "enterprise_card_system") {
-              item.category_name = "Card System";
-            } else if (item.category_name === "enterprise_software_solutions") {
-              item.category_name = "Application";
-            } else if (item.category_name === "peripherals_devices") {
-              item.category_name = "Peripherals Devices";
-            } else if (item.category_name === "personal_computing") {
-              item.category_name = "Personal Computing";
-            } else if (item.category_name === "data_center_devices") {
-              item.category_name = "Data Center Passive Items";
-            }
-          });
-  
           setData(result);
         }
       } catch (error) {
@@ -93,7 +71,7 @@ const DocumentListPage = () => {
   };
 
   const handleRowClick = (params) => {
-    
+
     // 'id' is the key for the item-id in your data
     const itemId = params.row.id;
 
@@ -134,6 +112,12 @@ const DocumentListPage = () => {
                   headerName: "Contract Type",
                   flex: 1,
                   sortable: true,
+                  renderCell: (params) => (
+                    <span>
+                      {contract_type_options.find((option) => option.value === params.value)?.label}
+                    </span>
+                  ),
+
                 },
                 {
                   field: "oem_id",
@@ -151,13 +135,17 @@ const DocumentListPage = () => {
                   field: "serial_number",
                   headerName: "Serial Number",
                   flex: 1,
-                  sortable: true,
                 },
                 {
                   field: "category_name",
                   headerName: "Category",
                   flex: 1,
                   sortable: true,
+                  renderCell: (params) => (
+                    <span>
+                      {category_name_options.find((option) => option.value === params.value)?.label}
+                    </span>
+                  ),
                 },
                 {
                   field: "partner_name",

@@ -168,20 +168,32 @@ const DocumentDetailPage = () => {
               />
 
               <label htmlFor="contract_type">Contract Type:</label>
-              <select
-                id="contract_type"
-                name="contract_type"
-                value={isEditing ? editedFormData.contract_type : formData.contract_type}
-                readOnly={!isEditing}
-                onChange={handleInputChange}
-              >
-                <option value="">Select Contract</option>
-                {contract_type_options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+              {isEditing ? (
+                <select
+                  id="contract_type"
+                  name="contract_type"
+                  value={editedFormData.contract_type}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select Contract</option>
+                  {contract_type_options.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  id="contract_type"
+                  name="contract_type"
+                  value={
+                    contract_type_options.find((opt) => opt.value === formData.contract_type)
+                      ?.label || formData.contract_type
+                  }
+                  readOnly
+                />
+              )}
 
               <label htmlFor="oem_id">OEM:</label>
               <input
@@ -217,18 +229,13 @@ const DocumentDetailPage = () => {
                 onChange={handleInputChange}
               />
 
-              <label htmlFor="category_name">Category Name:</label>
-               <select
-                  type="text"
+              <label htmlFor="category_name">Contract Type:</label>
+              {isEditing ? (
+                <select
                   id="category_name"
                   name="category_name"
-                  value={
-                    isEditing
-                      ? editedFormData.category_name
-                      : formData.category_name
-                  }
+                  value={editedFormData.category_name}
                   onChange={handleInputChange}
-                  readOnly={!isEditing}
                 >
                   <option value="">Select Category</option>
                   {category_name_options.map((option) => (
@@ -237,6 +244,19 @@ const DocumentDetailPage = () => {
                     </option>
                   ))}
                 </select>
+              ) : (
+                <input
+                  type="text"
+                  id="category_name"
+                  name="category_name"
+                  value={
+                    category_name_options.find((opt) => opt.value === formData.category_name)
+                      ?.label || formData.category_name
+                  }
+                  readOnly
+                />
+              )}
+
 
 
               <label htmlFor="partner_name">Partner Name:</label>
